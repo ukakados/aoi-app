@@ -22,7 +22,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 .tab:hover{color:var(--b)}
 .tab.active{color:var(--bd);border-bottom-color:var(--b);font-weight:500}
 .sec{display:none}.sec.active{display:block}
-
+ 
 /* HOME */
 .home-hero{background:linear-gradient(160deg,#f0f6ff 0%,#fff 50%,#fff5f7 100%);border:.5px solid var(--bm);border-radius:16px;padding:2rem 1rem 1.5rem;text-align:center;margin:1rem 0 1.25rem}
 .goal-card{width:100%;background:#fff;border:.5px solid var(--bm);border-radius:12px;padding:12px 14px;position:relative;margin-bottom:4px}
@@ -35,7 +35,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 .goal-edit:hover{background:rgba(255,255,255,.15)}
 .goal-arrow{text-align:center;color:var(--bm);font-size:11px;padding:3px 0;display:flex;flex-direction:column;align-items:center}
 .goal-arrow span{font-size:11px;color:var(--bb)}
-
+ 
 /* TASKS */
 .date-nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 .75rem;border-bottom:.5px solid var(--bm);margin-bottom:1.25rem;gap:8px;position:sticky;top:0;background:#fff;z-index:10}
 .dnav-btn{background:none;border:.5px solid var(--bm);border-radius:8px;padding:10px 16px;cursor:pointer;font-size:18px;color:var(--b);flex-shrink:0;display:flex;align-items:center;min-width:48px;min-height:48px;justify-content:center}
@@ -89,7 +89,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 .divider hr{flex:1;border:none;border-top:.5px dashed var(--bm)}
 .divider span{font-size:11px;color:var(--bb);white-space:nowrap}
 .future-note{background:var(--bl);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--bd);text-align:center;margin-bottom:1rem;border:.5px solid var(--bm)}
-
+ 
 /* POINTS */
 .pts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
 .pts-card{background:var(--bl);border-radius:10px;padding:.8rem .5rem;text-align:center;border:.5px solid var(--bm)}
@@ -129,7 +129,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 .oko-card{text-align:center;background:var(--rl);border:.5px solid var(--rm);border-radius:12px;padding:16px;margin-bottom:1.25rem}
 .oko-yen{font-size:32px;font-weight:500;color:var(--r)}
 .oko-sub{font-size:12px;color:var(--r);margin-top:2px}
-
+ 
 /* DIARY */
 .hint-card{background:var(--bl);border-left:3px solid var(--b);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:1.25rem;font-size:12px;color:var(--bd);line-height:1.65}
 .hint-card strong{color:var(--b);font-size:11px;display:block;margin-bottom:4px}
@@ -182,7 +182,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 .reply-row input:focus{outline:none;border-color:var(--b)}
 .reply-row button{padding:12px 16px;border-radius:8px;border:none;background:var(--b);font-size:14px;cursor:pointer;color:#fff;display:flex;align-items:center;gap:4px;min-height:48px}
 .reply-row button:hover{background:var(--bd)}
-
+ 
 /* DRAWER */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:100}
 .overlay.open{display:block}
@@ -256,14 +256,14 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
       <button class="gear-btn" onclick="openDrawer()"><i class="ti ti-settings"></i></button>
     </div>
   </div>
-
+ 
   <div class="tabs">
     <button class="tab active" onclick="sw('home',this)"><i class="ti ti-home"></i>ホーム</button>
     <button class="tab" onclick="sw('tasks',this)"><i class="ti ti-checkbox"></i>タスク</button>
     <button class="tab" onclick="sw('points',this)"><i class="ti ti-trophy"></i>ポイント</button>
     <button class="tab" onclick="sw('diary',this)"><i class="ti ti-notebook"></i>日記</button>
   </div>
-
+ 
   <!-- HOME -->
   <div id="s-home" class="sec active" style="padding-top:1rem">
     <div class="home-hero">
@@ -296,7 +296,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
     </div>
     <div style="display:flex;flex-direction:column;align-items:center" id="road"></div>
   </div>
-
+ 
   <!-- TASKS -->
   <div id="s-tasks" class="sec">
     <div class="date-nav">
@@ -310,7 +310,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
     </div>
     <div id="tasks-content"></div>
   </div>
-
+ 
   <!-- POINTS -->
   <div id="s-points" class="sec" style="padding-top:1rem">
     <div class="pts-grid">
@@ -335,7 +335,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
     <div class="sum-card" id="sum-card"></div>
     <div class="oko-card" id="oko-card"></div>
   </div>
-
+ 
   <!-- DIARY -->
   <div id="s-diary" class="sec" style="padding-top:1rem">
     <div class="hint-card">
@@ -373,7 +373,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
     <div class="d-entries" id="d-entries"></div>
   </div>
 </div>
-
+ 
 <!-- DRAWER -->
 <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawer">
@@ -398,7 +398,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
   <button class="save-adm" onclick="saveAdm()"><i class="ti ti-device-floppy"></i> 変更を保存</button>
 </div>
 <div class="toast" id="toast"></div>
-
+ 
 <script>
 const DAYS=['日','月','火','水','木','金','土'];
 const QUOTES=[
@@ -500,7 +500,7 @@ const QUOTES=[
   {t:'最後まで戦い続けることが、真のアスリートだ。',a:'スポーツの格言'},
   {t:'勝利よりも、全力を出し切ることに誇りを持て。',a:'スポーツの格言'},
 ];
-
+ 
 // デフォルトデータ
 const DEF_TASKS=[
   {id:'d1',name:'早起き・早寝',pts:10,note:'22時就寝・6時起床を目標に！',url:''},
@@ -520,17 +520,17 @@ const DEF_GOALS=[
   {id:'g6',lbl:'今年中に',txt:'選抜メンバー入り'},
   {id:'g7',lbl:'夏休み明けまでに',txt:'（目標を入力してください）'},
 ];
-
+ 
 // localStorage 保存/読込
 function save(){try{localStorage.setItem('aoi_app_v1',JSON.stringify({tasks:S.tasks,goals:S.goals,diary:S.diary,trk:S.trk,bon:S.bon,cust:S.cust,rate:S.rate}));}catch(e){}}
 function load(){try{const d=localStorage.getItem('aoi_app_v1');if(d){const p=JSON.parse(d);S.tasks=p.tasks||DEF_TASKS;S.goals=p.goals||DEF_GOALS;S.diary=p.diary||[];S.trk=p.trk||{};S.bon=p.bon||{};S.cust=p.cust||{};S.rate=p.rate||5;}}catch(e){}}
-
+ 
 // State
 const S={tasks:[...DEF_TASKS],goals:[...DEF_GOALS],diary:[],trk:{},bon:{},cust:{},rate:5};
 load();
-
+ 
 let dateOff=0,weekOff=0,curMood='😊',admDraft=[],cid=100;
-
+ 
 function getToday(){const d=new Date();d.setHours(0,0,0,0);return d;}
 function toStr(off){const d=getToday();d.setDate(d.getDate()+off);return d.toISOString().split('T')[0];}
 function todayStr(){return toStr(0);}
@@ -540,7 +540,7 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 function cell(date,id){if(!S.trk[date])S.trk[date]={};if(!S.trk[date][id])S.trk[date][id]={s:false,p:false};return S.trk[date][id];}
 function getCust(date){if(!S.cust[date])S.cust[date]=[];return S.cust[date];}
 function allTasks(date){return[...S.tasks,...getCust(date)];}
-
+ 
 // Tabs
 function sw(name,el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -551,7 +551,7 @@ function sw(name,el){
   if(name==='points')renderPoints();
   if(name==='home')renderHome();
 }
-
+ 
 // ---- HOME ----
 function renderHome(){
   const road=document.getElementById('road');road.innerHTML='';
@@ -583,7 +583,7 @@ function saveGoalEdit(id){
   save();
   toast('目標を更新しました');
 }
-
+ 
 // ---- TASKS ----
 function buildTaskRow(t,date,isCustom){
   const c=cell(date,t.id);
@@ -630,7 +630,7 @@ function addCust(date){const inp=document.getElementById('nc-'+date);if(!inp)ret
 function delCust(date,id){if(!S.cust[date])return;S.cust[date]=S.cust[date].filter(x=>x.id!==id);save();renderTasks();}
 function moveDay(dir){dateOff+=dir;renderTasks();}
 function goToday(){dateOff=0;renderTasks();}
-
+ 
 // ---- POINTS ----
 function calcPts(){
   const ts=todayStr(),wd=weekDates(0),mo=ts.slice(0,7);
@@ -639,7 +639,7 @@ function calcPts(){
   Object.keys(S.bon).forEach(date=>{(S.bon[date]||[]).forEach(e=>{total+=e.v;if(date===ts)t+=e.v;if(weekDates(0).includes(date))w+=e.v;if(date.startsWith(todayStr().slice(0,7)))m+=e.v;});});
   return{t:Math.max(0,t),w:Math.max(0,w),m:Math.max(0,m),total:Math.max(0,total)};
 }
-function weekDates(off){const d=new Date(TODAY),dow=d.getDay(),mon=new Date(d);mon.setDate(d.getDate()-((dow+6)%7)+off*7);return Array.from({length:7},(_,i)=>{const dd=new Date(mon);dd.setDate(mon.getDate()+i);return dd.toISOString().split('T')[0];});}
+function weekDates(off){const d=getToday(),dow=d.getDay(),mon=new Date(d);mon.setDate(d.getDate()-((dow+6)%7)+off*7);return Array.from({length:7},(_,i)=>{const dd=new Date(mon);dd.setDate(mon.getDate()+i);return dd.toISOString().split('T')[0];});}
 function updPts(){const p=calcPts();document.getElementById('hpts').textContent=p.total;['pts-today','pts-week','pts-month','pts-total'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[p.t,p.w,p.m,p.total][i];});}
 function chgWeek(dir){weekOff+=dir;renderPoints();}
 function renderPoints(){
@@ -673,7 +673,7 @@ function renderPoints(){
 function togglePar(date,id){const c=cell(date,id);if(!c.s&&!c.p){toast('葵がまだチェックしていません');return;}c.p=!c.p;save();toast(c.p?'親確認しました。ポイント確定 ✅':'親確認を取り消しました');renderPoints();if(document.getElementById('s-tasks').classList.contains('active'))renderTasks();}
 function addBon(date,sign){const l=document.getElementById('bl-'+date),v=document.getElementById('bv-'+date);const lbl=l.value.trim(),val=parseInt(v.value)||0;if(!lbl||val===0)return;if(!S.bon[date])S.bon[date]=[];S.bon[date].push({lbl,v:sign*Math.abs(val)});l.value='';v.value='';save();renderPoints();toast((sign>0?'ボーナス':'ペナルティ')+'を追加しました');}
 function delBon(date,i){S.bon[date].splice(i,1);save();renderPoints();}
-
+ 
 // ---- DIARY ----
 function selMood(el){document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');curMood=el.dataset.mood;}
 function clrDiary(){['f1','f2','f3','f4','f5'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));curMood='😊';}
@@ -701,7 +701,7 @@ function renderDiaries(){
 }
 function togCard(idx){const b=document.getElementById('db-'+idx),c=document.getElementById('dc-'+idx);const o=b.classList.contains('open');b.classList.toggle('open',!o);c.classList.toggle('open',!o);}
 function addReply(idx){const inp=document.getElementById('ri-'+idx);const txt=inp.value.trim();if(!txt)return;const now=new Date();const time=(now.getMonth()+1)+'月'+now.getDate()+'日 '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');if(!S.diary[idx].replies)S.diary[idx].replies=[];S.diary[idx].replies.push({t:txt,time});inp.value='';save();document.getElementById('dr-'+idx).innerHTML=S.diary[idx].replies.map(r=>`<div class="reply-bubble"><span style="font-size:11px;font-weight:500;color:#185FA5">保護者より</span><br>${r.t}<div class="reply-meta">${r.time}</div></div>`).join('');toast('返信を送りました');}
-
+ 
 // ---- ADMIN ----
 function openDrawer(){admDraft=S.tasks.map(t=>({...t}));document.getElementById('rate-inp').value=S.rate;updRatePrev();renderAdm();document.getElementById('overlay').classList.add('open');document.getElementById('drawer').classList.add('open');}
 function closeDrawer(){document.getElementById('overlay').classList.remove('open');document.getElementById('drawer').classList.remove('open');}
@@ -720,14 +720,18 @@ function saveAdm(){
   admDraft.forEach((t,i)=>{const n=document.getElementById('an-'+i),p=document.getElementById('ap-'+i),no=document.getElementById('an-note-'+i),ur=document.getElementById('an-url-'+i);if(n)t.name=n.value.trim()||t.name;if(p)t.pts=parseInt(p.value)||t.pts;if(no)t.note=no.value.trim();if(ur)t.url=ur.value.trim();});
   S.tasks=admDraft.map(t=>({...t}));S.rate=parseInt(document.getElementById('rate-inp').value)||1;save();closeDrawer();renderTasks();if(document.getElementById('s-points').classList.contains('active'))renderPoints();toast('設定を保存しました');
 }
-
+ 
 // ---- INIT ----
-const now=new Date();
-document.getElementById('diary-date-badge').textContent=(now.getMonth()+1)+'月'+now.getDate()+'日('+DAYS[now.getDay()]+')';
+function updDiaryDateBadge(){const now=new Date();document.getElementById('diary-date-badge').textContent=(now.getMonth()+1)+'月'+now.getDate()+'日('+DAYS[now.getDay()]+')';}
+updDiaryDateBadge();
 try{renderHome();}catch(e){console.error('renderHome error:',e);}
 try{renderTasks();}catch(e){console.error('renderTasks error:',e);}
 try{updPts();}catch(e){console.error('updPts error:',e);}
 try{renderDiaries();}catch(e){console.error('renderDiaries error:',e);}
+ 
+// 日付変わり検知：1分ごとに今日の日付をチェックし、変わったらUIを更新
+let _lastDate=todayStr();
+setInterval(()=>{const d=todayStr();if(d!==_lastDate){_lastDate=d;updDiaryDateBadge();try{renderTasks();}catch(e){}try{renderPoints();}catch(e){}toast('日付が変わりました：'+d);}},60000);
 </script>
 </body>
 </html>
