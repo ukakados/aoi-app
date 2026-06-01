@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>葵 世界への道</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+:root{--b:#185FA5;--bd:#0C447C;--bl:#E6F1FB;--bm:#B5D4F4;--bb:#378ADD;--r:#BC002D;--rl:#FCEEF1;--rm:#F4849E;--g:#B8962A}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff;color:#111;-webkit-text-size-adjust:100%}
+.app{max-width:680px;margin:0 auto;padding:0 0 3rem}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1rem;background:var(--bd);border-radius:0 0 12px 12px;margin-bottom:1.25rem}
+.nav-title{font-size:16px;font-weight:500;display:flex;align-items:center;gap:8px;color:#fff}
+.nav-right{display:flex;align-items:center;gap:10px}
+.pts-badge{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border-radius:20px;padding:5px 12px;font-size:13px;font-weight:500;color:#fff}
+.pts-badge i{color:var(--rm)}
+.gear-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.4);font-size:22px;padding:8px;line-height:1;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.gear-btn:hover{color:rgba(255,255,255,.8)}
+.tabs{display:flex;border-bottom:2px solid var(--bd);overflow-x:auto;position:relative;z-index:1}
+.tab{padding:12px 14px;font-size:13px;color:#666;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:5px;min-height:48px;position:relative;bottom:-2px}
+.tab:hover{color:var(--b)}
+.tab.active{color:var(--bd);border-bottom-color:var(--b);font-weight:500}
+.sec{display:none}.sec.active{display:block}
+
+/* HOME */
+.home-hero{background:linear-gradient(160deg,#f0f6ff 0%,#fff 50%,#fff5f7 100%);border:.5px solid var(--bm);border-radius:16px;padding:2rem 1rem 1.5rem;text-align:center;margin:1rem 0 1.25rem}
+.goal-card{width:100%;background:#fff;border:.5px solid var(--bm);border-radius:12px;padding:12px 14px;position:relative;margin-bottom:4px}
+.goal-card.top{background:var(--bd);border-color:var(--bd)}
+.goal-label{font-size:11px;font-weight:500;color:var(--b);margin-bottom:3px;display:flex;align-items:center;gap:5px}
+.goal-card.top .goal-label{color:var(--bm)}
+.goal-text{font-size:14px;font-weight:500;padding-right:28px;line-height:1.4;color:#111}
+.goal-card.top .goal-text{color:#fff;font-size:16px}
+.goal-edit{position:absolute;top:10px;right:10px;background:none;border:none;cursor:pointer;color:var(--bm);font-size:15px;border-radius:6px;padding:3px}
+.goal-edit:hover{background:rgba(255,255,255,.15)}
+.goal-arrow{text-align:center;color:var(--bm);font-size:11px;padding:3px 0;display:flex;flex-direction:column;align-items:center}
+.goal-arrow span{font-size:11px;color:var(--bb)}
+
+/* TASKS */
+.date-nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0 .75rem;border-bottom:.5px solid var(--bm);margin-bottom:1.25rem;gap:8px;position:sticky;top:0;background:#fff;z-index:10}
+.dnav-btn{background:none;border:.5px solid var(--bm);border-radius:8px;padding:10px 16px;cursor:pointer;font-size:18px;color:var(--b);flex-shrink:0;display:flex;align-items:center;min-width:48px;min-height:48px;justify-content:center}
+.dnav-btn:hover{background:var(--bl)}
+.dnav-center{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1}
+.dnav-main{font-size:15px;font-weight:500;color:var(--bd)}
+.dnav-sub{font-size:11px;color:var(--bb)}
+.today-btn{font-size:12px;padding:3px 10px;border-radius:20px;border:.5px solid var(--bm);background:#fff;cursor:pointer;color:var(--b);display:none}
+.today-btn.vis{display:inline-block}
+.today-btn.vis:hover{background:var(--bl)}
+.quote-card{background:var(--bd);border-radius:12px;padding:14px 18px 14px 32px;margin-bottom:1.25rem;position:relative}
+.quote-card::before{content:'\201C';font-size:32px;color:var(--bm);position:absolute;left:12px;top:8px;line-height:1}
+.quote-text{font-size:14px;color:#fff;line-height:1.7;font-style:italic}
+.quote-author{font-size:12px;color:var(--bm);margin-top:5px;text-align:right;font-weight:500}
+.prog-strip{background:var(--bl);border-radius:8px;padding:10px 14px;margin-bottom:1.25rem;display:flex;align-items:center;gap:12px;border:.5px solid var(--bm)}
+.prog-bar{flex:1;height:8px;border-radius:8px;background:var(--bm);overflow:hidden}
+.prog-fill{height:100%;border-radius:8px;background:var(--b);transition:width .4s}
+.sec-label{font-size:11px;font-weight:500;color:var(--bd);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.task-block{margin-bottom:6px}
+.task-row{display:flex;align-items:center;gap:10px;padding:14px 12px;background:#fff;border:.5px solid var(--bm);border-radius:12px;transition:all .2s;min-height:56px}
+.task-row.has-info{border-radius:12px 12px 0 0}
+.task-row.sdone{opacity:.5}
+.task-row.sdone .tname{text-decoration:line-through;color:#aaa}
+.task-row.pverif{border-color:var(--b);background:var(--bl)}
+.chk{width:36px;height:36px;border-radius:50%;border:2px solid var(--bm);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:14px}
+.chk.son{background:var(--b);border-color:var(--b);color:#fff}
+.chk.par{background:var(--bd);border-color:var(--bd);color:#fff}
+.tname{flex:1;font-size:15px}
+.tpts{font-size:11px;font-weight:500;color:var(--r);background:var(--rl);border-radius:12px;padding:2px 9px;border:.5px solid var(--rm)}
+.sbadge{font-size:10px;border-radius:10px;padding:2px 7px;white-space:nowrap;font-weight:500}
+.sbadge.pend{background:var(--bl);color:var(--bd);border:.5px solid var(--bm)}
+.sbadge.done{background:var(--bl);color:var(--b);border:.5px solid var(--b)}
+.sbadge.verif{background:var(--bd);color:#fff;border:.5px solid var(--bd)}
+.info-btn{width:40px;height:40px;border-radius:50%;border:.5px solid var(--bm);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--b);flex-shrink:0;transition:all .2s}
+.info-btn:hover{background:var(--bl)}
+.info-btn.open{background:var(--b);color:#fff;border-color:var(--b)}
+.info-btn.open i{transform:rotate(180deg)}
+.info-btn i{font-size:14px;transition:transform .2s}
+.info-panel{display:none;padding:10px 14px 12px;background:var(--bl);border:.5px solid var(--bm);border-top:none;border-radius:0 0 12px 12px}
+.info-panel.open{display:block}
+.info-note{font-size:13px;color:var(--bd);line-height:1.6;margin-bottom:8px}
+.info-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--b);color:#fff;border-radius:20px;font-size:12px;font-weight:500;text-decoration:none}
+.info-link:hover{background:var(--bd)}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--bm);font-size:14px;padding:2px 4px}
+.del-btn:hover{color:var(--r)}
+.add-row{display:flex;gap:6px;margin-bottom:1rem}
+.add-row input{flex:1;border:.5px solid var(--bm);border-radius:8px;padding:12px 10px;font-size:14px}
+.add-row input:focus{outline:none;border-color:var(--b)}
+.add-row button{padding:12px 16px;border-radius:8px;border:none;background:var(--b);font-size:14px;cursor:pointer;color:#fff;display:flex;align-items:center;gap:4px;min-height:48px}
+.divider{display:flex;align-items:center;gap:8px;margin:.5rem 0 .75rem}
+.divider hr{flex:1;border:none;border-top:.5px dashed var(--bm)}
+.divider span{font-size:11px;color:var(--bb);white-space:nowrap}
+.future-note{background:var(--bl);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--bd);text-align:center;margin-bottom:1rem;border:.5px solid var(--bm)}
+
+/* POINTS */
+.pts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+.pts-card{background:var(--bl);border-radius:10px;padding:.8rem .5rem;text-align:center;border:.5px solid var(--bm)}
+.pts-num{font-size:22px;font-weight:500;margin:3px 0;color:var(--bd)}
+.pts-unit{font-size:11px;color:var(--b)}
+.week-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.week-nav{background:none;border:.5px solid var(--bm);border-radius:8px;padding:10px 16px;cursor:pointer;font-size:16px;color:var(--b);min-width:48px;min-height:48px;display:flex;align-items:center;justify-content:center}
+.week-nav:hover{background:var(--bl)}
+.tracker-wrap{overflow-x:auto;margin-bottom:1.25rem}
+.tracker-table{width:100%;border-collapse:collapse;min-width:560px}
+.tracker-table th{font-size:11px;font-weight:500;color:var(--b);padding:6px 4px;text-align:center;border-bottom:.5px solid var(--bm);background:var(--bl)}
+.tracker-table th.tcol{text-align:left;padding-left:8px;min-width:120px}
+.tracker-table td{padding:5px 4px;text-align:center;border-bottom:.5px solid #eef4fb;vertical-align:middle}
+.tracker-table td.tcol{text-align:left;padding-left:8px;font-size:13px}
+.today-col{background:var(--bl)}
+.day-cell{display:flex;flex-direction:column;align-items:center;gap:3px}
+.sdot{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--bm);display:flex;align-items:center;justify-content:center;font-size:13px}
+.sdot.on{background:var(--bl);border-color:var(--b);color:var(--b)}
+.pdot{width:28px;height:28px;border-radius:4px;border:1.5px solid var(--bm);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer}
+.pdot.on{background:var(--b);border-color:var(--bd);color:#fff}
+.bonus-block{background:var(--bl);border-radius:10px;padding:10px 12px;margin-bottom:8px;border:.5px solid var(--bm)}
+.bonus-title{font-size:12px;font-weight:500;color:var(--bd);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.bonus-entry{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:5px}
+.bval-plus{color:var(--b);font-weight:500}
+.bval-minus{color:var(--r);font-weight:500}
+.bonus-add{display:flex;gap:5px;flex-wrap:wrap}
+.bonus-add input[type=text]{flex:1;min-width:100px;border:.5px solid var(--bm);border-radius:6px;padding:10px 8px;font-size:13px}
+.bonus-add input[type=number]{width:70px;border:.5px solid var(--bm);border-radius:6px;padding:10px 8px;font-size:13px}
+.bonus-add button{padding:10px 14px;border-radius:6px;border:none;font-size:14px;cursor:pointer;font-weight:500;min-height:44px;min-width:44px}
+.btn-plus{background:var(--b);color:#fff}
+.btn-minus{background:var(--r);color:#fff}
+.sum-card{background:var(--bd);border-radius:12px;padding:16px 18px;margin-bottom:1rem}
+.sum-row{display:flex;justify-content:space-between;font-size:14px;padding:5px 0;border-bottom:.5px solid rgba(255,255,255,.15)}
+.sum-row:last-child{border-bottom:none;font-weight:500;font-size:15px;padding-top:8px}
+.sum-row span:first-child{color:var(--bm)}
+.sum-row span:last-child{color:#fff}
+.oko-card{text-align:center;background:var(--rl);border:.5px solid var(--rm);border-radius:12px;padding:16px;margin-bottom:1.25rem}
+.oko-yen{font-size:32px;font-weight:500;color:var(--r)}
+.oko-sub{font-size:12px;color:var(--r);margin-top:2px}
+
+/* DIARY */
+.hint-card{background:var(--bl);border-left:3px solid var(--b);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:1.25rem;font-size:12px;color:var(--bd);line-height:1.65}
+.hint-card strong{color:var(--b);font-size:11px;display:block;margin-bottom:4px}
+.diary-form{border:.5px solid var(--bm);border-radius:12px;overflow:hidden;margin-bottom:1.5rem}
+.diary-hdr{background:var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.diary-hdr-title{font-size:14px;font-weight:500;color:#fff;display:flex;align-items:center;gap:6px}
+.diary-hdr-title i{color:var(--bm)}
+.diary-date-badge{font-size:12px;color:var(--bm);background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px}
+.mood-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:.5px solid var(--bm);background:var(--bl)}
+.mood-bar label{font-size:12px;color:var(--bd);font-weight:500;white-space:nowrap}
+.mood-row{display:flex;gap:6px}
+.mbtn{background:none;border:.5px solid var(--bm);border-radius:8px;padding:8px 12px;font-size:22px;cursor:pointer;min-width:48px;min-height:48px;display:flex;align-items:center;justify-content:center}
+.mbtn.sel{background:var(--b);border-color:var(--bd);transform:scale(1.15)}
+.dsteps{display:flex;flex-direction:column}
+.dstep{padding:12px 16px;border-bottom:.5px solid #eef4fb;display:flex;gap:12px;align-items:flex-start}
+.dstep:last-child{border-bottom:none}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--b);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-content{flex:1}
+.step-label{font-size:12px;font-weight:500;color:var(--bd);margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.step-label i{font-size:14px;color:var(--bb)}
+.step-ta{width:100%;border:.5px solid var(--bm);border-radius:8px;padding:8px 10px;font-size:13px;resize:none;min-height:56px;font-family:inherit;line-height:1.6;color:#111}
+.step-ta:focus{outline:none;border-color:var(--b)}
+.step-ta.word{min-height:auto;height:38px}
+.diary-footer{padding:12px 16px;background:var(--bl);display:flex;justify-content:flex-end;gap:8px}
+.btn-clr{padding:12px 20px;border-radius:8px;border:.5px solid var(--bm);background:#fff;font-size:14px;cursor:pointer;color:var(--b)}
+.btn-save{padding:12px 24px;border-radius:8px;border:none;background:var(--b);font-size:14px;font-weight:500;cursor:pointer;color:#fff;display:flex;align-items:center;gap:5px}
+.btn-save:hover{background:var(--bd)}
+.d-entries{display:flex;flex-direction:column;gap:10px}
+.d-card{background:#fff;border:.5px solid var(--bm);border-radius:12px;overflow:hidden}
+.d-card-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--bl);cursor:pointer;gap:8px;min-height:56px}
+.d-card-left{display:flex;align-items:center;gap:8px}
+.d-card-date{font-size:12px;color:var(--bd);font-weight:500}
+.d-card-mood{font-size:18px}
+.d-card-prev{font-size:13px;color:#666;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.d-card-chev{color:var(--bb);font-size:16px;transition:transform .2s;flex-shrink:0}
+.d-card-chev.open{transform:rotate(180deg)}
+.d-card-body{display:none;padding:14px 16px;border-top:.5px solid var(--bm)}
+.d-card-body.open{display:block}
+.d-sec{margin-bottom:12px}
+.d-sec-lbl{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:var(--b);margin-bottom:4px}
+.d-sec-num{width:18px;height:18px;border-radius:50%;background:var(--b);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.d-sec-text{font-size:13px;line-height:1.65;color:#111}
+.word-chip{display:inline-flex;align-items:center;gap:5px;background:var(--r);color:#fff;border-radius:20px;padding:4px 14px;font-size:13px;font-weight:500;margin-top:2px}
+.reply-sec{margin-top:12px;border-top:.5px solid var(--bm);padding-top:12px}
+.reply-lbl{font-size:11px;font-weight:500;color:var(--bd);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.reply-bubble{background:var(--bl);border:.5px solid var(--bm);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--bd);line-height:1.6;margin-bottom:8px}
+.reply-meta{font-size:11px;color:var(--bb);margin-top:4px;text-align:right}
+.reply-row{display:flex;gap:6px}
+.reply-row input{flex:1;border:.5px solid var(--bm);border-radius:8px;padding:12px 10px;font-size:14px}
+.reply-row input:focus{outline:none;border-color:var(--b)}
+.reply-row button{padding:12px 16px;border-radius:8px;border:none;background:var(--b);font-size:14px;cursor:pointer;color:#fff;display:flex;align-items:center;gap:4px;min-height:48px}
+.reply-row button:hover{background:var(--bd)}
+
+/* DRAWER */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:100}
+.overlay.open{display:block}
+.drawer{position:fixed;top:0;right:-360px;width:340px;max-width:92vw;height:100%;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.12);z-index:101;transition:right .28s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:1.25rem}
+.drawer.open{right:0}
+.drawer-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:.5px solid var(--bm)}
+.drawer-title{font-size:15px;font-weight:500;display:flex;align-items:center;gap:8px;color:var(--bd)}
+.drawer-close{background:none;border:none;cursor:pointer;font-size:20px;color:#888;padding:4px}
+.adm-block{background:var(--bl);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1rem;border:.5px solid var(--bm)}
+.adm-title{font-size:13px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--bd)}
+.adm-task{padding:8px 0;border-bottom:.5px solid rgba(21,95,165,.15)}
+.adm-task:last-child{border-bottom:none}
+.adm-row1{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.adm-row1 input[type=text]{flex:1;border:.5px solid var(--bm);border-radius:8px;padding:6px 10px;font-size:13px}
+.adm-pts{display:flex;align-items:center;gap:3px}
+.adm-pts input{width:48px;border:.5px solid var(--bm);border-radius:8px;padding:6px;font-size:13px;text-align:right}
+.adm-pts span{font-size:12px;color:var(--b)}
+.adm-del{background:none;border:none;cursor:pointer;color:var(--bm);font-size:14px;padding:2px 4px}
+.adm-del:hover{color:var(--r)}
+.adm-extra{display:flex;flex-direction:column;gap:4px}
+.adm-extra label{font-size:11px;color:var(--b);font-weight:500}
+.adm-extra input{border:.5px solid var(--bm);border-radius:8px;padding:5px 10px;font-size:12px;width:100%}
+.adm-add{display:flex;gap:6px;margin-top:10px}
+.adm-add input[type=text]{flex:1;border:.5px solid var(--bm);border-radius:8px;padding:7px 10px;font-size:13px}
+.adm-add input[type=number]{width:54px;border:.5px solid var(--bm);border-radius:8px;padding:7px 6px;font-size:13px;text-align:right}
+.adm-add button{padding:7px 12px;border-radius:8px;border:none;background:var(--b);font-size:13px;cursor:pointer;color:#fff}
+.rate-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--bd)}
+.rate-row input{width:66px;border:.5px solid var(--bm);border-radius:8px;padding:6px 8px;font-size:13px;text-align:right}
+.save-adm{width:100%;margin-top:4px;padding:16px;border-radius:8px;border:none;background:var(--b);font-size:16px;cursor:pointer;color:#fff;font-weight:500;min-height:56px}
+.save-adm:hover{background:var(--bd)}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--bd);color:#fff;padding:8px 18px;border-radius:12px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200;white-space:nowrap;border-left:3px solid var(--r)}
+.toast.show{opacity:1}
+.sec-hdr{font-size:13px;font-weight:500;color:var(--bd);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.task-legend{display:flex;gap:12px;font-size:11px;color:var(--b);margin-bottom:12px;flex-wrap:wrap}
+.task-legend span{display:flex;align-items:center;gap:4px}
+.chk-legend{display:flex;gap:14px;font-size:11px;color:var(--b);margin-bottom:8px;flex-wrap:wrap}
+.chk-legend span{display:flex;align-items:center;gap:4px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="nav">
+    <div class="nav-title">
+      <svg width="22" height="26" viewBox="0 0 90 108" xmlns="http://www.w3.org/2000/svg">
+        <path d="M45 4L84 16L84 62Q84 90 45 104Q6 90 6 62L6 16Z" fill="#B8962A"/>
+        <path d="M45 7L81 18L81 62Q81 88 45 101Q9 88 9 62L9 18Z" fill="#111"/>
+        <path d="M45 11L78 21L78 62Q78 85 45 97Q12 85 12 62L12 21Z" fill="#fff"/>
+        <rect x="38" y="11" width="14" height="86" fill="#BC002D" rx="1"/>
+        <rect x="12" y="11" width="66" height="20" fill="#111" rx="2"/>
+        <text x="45" y="26" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="11" font-weight="900" fill="#fff" letter-spacing="2">JAPAN</text>
+        <g transform="translate(45,58) scale(1,-1)">
+          <ellipse cx="0" cy="0" rx="11" ry="14" fill="#111"/>
+          <ellipse cx="3" cy="17" rx="7" ry="7" fill="#111"/>
+          <polygon points="8,21 14,19 8,17" fill="#111"/>
+          <circle cx="5" cy="18" r="1.2" fill="#fff"/>
+          <path d="M-11,4Q-28,10-30,2Q-22,-2-11,0Z" fill="#111"/>
+          <line x1="-14" y1="5" x2="-26" y2="3" stroke="#fff" stroke-width=".8"/>
+          <line x1="-14" y1="7" x2="-25" y2="6" stroke="#fff" stroke-width=".8"/>
+          <line x1="-13" y1="9" x2="-23" y2="9" stroke="#fff" stroke-width=".8"/>
+          <path d="M11,4Q20,8 21,2Q16,-1 11,0Z" fill="#111"/>
+          <circle cx="-14" cy="-17" r="6" fill="#BC002D"/>
+        </g>
+        <text x="45" y="96" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111">JFA</text>
+        <path d="M38 97L45 104L52 97Z" fill="#BC002D"/>
+      </svg>
+      葵　世界への道
+    </div>
+    <div class="nav-right">
+      <div class="pts-badge"><i class="ti ti-star"></i><span id="hpts">0</span> pt</div>
+      <button class="gear-btn" onclick="openDrawer()"><i class="ti ti-settings"></i></button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="sw('home',this)"><i class="ti ti-home"></i>ホーム</button>
+    <button class="tab" onclick="sw('tasks',this)"><i class="ti ti-checkbox"></i>タスク</button>
+    <button class="tab" onclick="sw('points',this)"><i class="ti ti-trophy"></i>ポイント</button>
+    <button class="tab" onclick="sw('diary',this)"><i class="ti ti-notebook"></i>日記</button>
+  </div>
+
+  <!-- HOME -->
+  <div id="s-home" class="sec active" style="padding-top:1rem">
+    <div class="home-hero">
+      <div style="display:flex;justify-content:center;margin-bottom:1rem">
+        <svg width="72" height="86" viewBox="0 0 90 108" xmlns="http://www.w3.org/2000/svg">
+          <path d="M45 4L84 16L84 62Q84 90 45 104Q6 90 6 62L6 16Z" fill="#B8962A"/>
+          <path d="M45 7L81 18L81 62Q81 88 45 101Q9 88 9 62L9 18Z" fill="#111"/>
+          <path d="M45 11L78 21L78 62Q78 85 45 97Q12 85 12 62L12 21Z" fill="#fff"/>
+          <rect x="38" y="11" width="14" height="86" fill="#BC002D" rx="1"/>
+          <rect x="12" y="11" width="66" height="20" fill="#111" rx="2"/>
+          <text x="45" y="26" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="11" font-weight="900" fill="#fff" letter-spacing="2">JAPAN</text>
+          <g transform="translate(45,58) scale(1,-1)">
+            <ellipse cx="0" cy="0" rx="11" ry="14" fill="#111"/>
+            <ellipse cx="3" cy="17" rx="7" ry="7" fill="#111"/>
+            <polygon points="8,21 14,19 8,17" fill="#111"/>
+            <circle cx="5" cy="18" r="1.2" fill="#fff"/>
+            <path d="M-11,4Q-28,10-30,2Q-22,-2-11,0Z" fill="#111"/>
+            <line x1="-14" y1="5" x2="-26" y2="3" stroke="#fff" stroke-width=".8"/>
+            <line x1="-14" y1="7" x2="-25" y2="6" stroke="#fff" stroke-width=".8"/>
+            <line x1="-13" y1="9" x2="-23" y2="9" stroke="#fff" stroke-width=".8"/>
+            <path d="M11,4Q20,8 21,2Q16,-1 11,0Z" fill="#111"/>
+            <circle cx="-14" cy="-17" r="6" fill="#BC002D"/>
+          </g>
+          <text x="45" y="96" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#111">JFA</text>
+          <path d="M38 97L45 104L52 97Z" fill="#BC002D"/>
+        </svg>
+      </div>
+      <div style="font-size:26px;font-weight:500;color:#0C447C;margin-bottom:4px">葵　世界への道</div>
+      <div style="font-size:13px;color:#378ADD">✏️ 鉛筆アイコンで目標を編集できます</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center" id="road"></div>
+  </div>
+
+  <!-- TASKS -->
+  <div id="s-tasks" class="sec">
+    <div class="date-nav">
+      <button class="dnav-btn" onclick="moveDay(-1)"><i class="ti ti-chevron-left"></i></button>
+      <div class="dnav-center">
+        <div class="dnav-main" id="dnav-main"></div>
+        <div class="dnav-sub" id="dnav-sub"></div>
+      </div>
+      <button class="today-btn" id="today-btn" onclick="goToday()">今日</button>
+      <button class="dnav-btn" onclick="moveDay(1)"><i class="ti ti-chevron-right"></i></button>
+    </div>
+    <div id="tasks-content"></div>
+  </div>
+
+  <!-- POINTS -->
+  <div id="s-points" class="sec" style="padding-top:1rem">
+    <div class="pts-grid">
+      <div class="pts-card"><div class="pts-unit">今日</div><div class="pts-num" id="pts-today">0</div><div class="pts-unit">pt</div></div>
+      <div class="pts-card"><div class="pts-unit">今週</div><div class="pts-num" id="pts-week">0</div><div class="pts-unit">pt</div></div>
+      <div class="pts-card"><div class="pts-unit">今月</div><div class="pts-num" id="pts-month">0</div><div class="pts-unit">pt</div></div>
+      <div class="pts-card"><div class="pts-unit">合計</div><div class="pts-num" id="pts-total">0</div><div class="pts-unit">pt</div></div>
+    </div>
+    <div class="week-header">
+      <button class="week-nav" onclick="chgWeek(-1)"><i class="ti ti-chevron-left"></i></button>
+      <span style="font-size:14px;font-weight:500;color:#0C447C" id="week-lbl"></span>
+      <button class="week-nav" onclick="chgWeek(1)"><i class="ti ti-chevron-right"></i></button>
+    </div>
+    <div class="chk-legend">
+      <span><span style="display:inline-flex;width:16px;height:16px;border-radius:50%;background:#E6F1FB;border:1.5px solid #185FA5;align-items:center;justify-content:center;font-size:10px;color:#185FA5">✓</span>葵チェック</span>
+      <span><span style="display:inline-flex;width:16px;height:16px;border-radius:4px;background:#185FA5;border:1.5px solid #0C447C;align-items:center;justify-content:center;font-size:10px;color:#fff">✓</span>親確認→ポイント確定</span>
+    </div>
+    <div class="tracker-wrap"><table class="tracker-table" id="tracker-tbl"></table></div>
+    <div class="sec-hdr"><i class="ti ti-plus-minus" style="color:#185FA5"></i>ボーナス / ペナルティ</div>
+    <div id="bonus-sec"></div>
+    <div class="sec-hdr"><i class="ti ti-calculator" style="color:#185FA5"></i>今週の集計</div>
+    <div class="sum-card" id="sum-card"></div>
+    <div class="oko-card" id="oko-card"></div>
+  </div>
+
+  <!-- DIARY -->
+  <div id="s-diary" class="sec" style="padding-top:1rem">
+    <div class="hint-card">
+      <strong><i class="ti ti-bulb" style="font-size:12px"></i> 書き方の例</strong>
+      今日の練習でパスのタイミングが遅れた。悔しかった。ボールを受ける前に周りを見ていなかったから。次は顔を上げてから受けたい。今日の言葉は「視野」。
+    </div>
+    <div class="diary-form">
+      <div class="diary-hdr">
+        <div class="diary-hdr-title"><i class="ti ti-pencil" style="font-size:15px"></i>今日の日記を書く</div>
+        <div class="diary-date-badge" id="diary-date-badge"></div>
+      </div>
+      <div class="mood-bar">
+        <label>今日の気分</label>
+        <div class="mood-row">
+          <button class="mbtn" data-mood="😄" onclick="selMood(this)">😄</button>
+          <button class="mbtn" data-mood="🙂" onclick="selMood(this)">🙂</button>
+          <button class="mbtn" data-mood="😐" onclick="selMood(this)">😐</button>
+          <button class="mbtn" data-mood="😔" onclick="selMood(this)">😔</button>
+          <button class="mbtn" data-mood="😤" onclick="selMood(this)">😤</button>
+        </div>
+      </div>
+      <div class="dsteps">
+        <div class="dstep"><div class="step-num">1</div><div class="step-content"><div class="step-label"><i class="ti ti-sun"></i>今日あったこと</div><textarea class="step-ta" id="f1" placeholder="今日の練習や試合、学校での出来事など…"></textarea></div></div>
+        <div class="dstep"><div class="step-num">2</div><div class="step-content"><div class="step-label"><i class="ti ti-heart"></i>そのとき感じたこと</div><textarea class="step-ta" id="f2" placeholder="うれしかった、悔しかった、不安だった…"></textarea></div></div>
+        <div class="dstep"><div class="step-num">3</div><div class="step-content"><div class="step-label"><i class="ti ti-zoom-question"></i>なぜそう感じたか</div><textarea class="step-ta" id="f3" placeholder="どうしてそう感じたのかを考えてみよう…"></textarea></div></div>
+        <div class="dstep"><div class="step-num">4</div><div class="step-content"><div class="step-label"><i class="ti ti-arrow-right"></i>次にどうしたいか</div><textarea class="step-ta" id="f4" placeholder="次回はこうしてみたい…"></textarea></div></div>
+        <div class="dstep"><div class="step-num">5</div><div class="step-content"><div class="step-label"><i class="ti ti-book"></i>今日の新しい言葉</div><input type="text" class="step-ta word" id="f5" placeholder="例：視野"></div></div>
+      </div>
+      <div class="diary-footer">
+        <button class="btn-clr" onclick="clrDiary()">クリア</button>
+        <button class="btn-save" onclick="saveDiary()"><i class="ti ti-device-floppy" style="font-size:14px"></i>保存する</button>
+      </div>
+    </div>
+    <div class="sec-hdr"><i class="ti ti-history"></i>過去の日記</div>
+    <div class="d-entries" id="d-entries"></div>
+  </div>
+</div>
+
+<!-- DRAWER -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-hdr">
+    <div class="drawer-title"><i class="ti ti-settings" style="font-size:16px"></i>管理設定<span style="font-size:11px;color:#378ADD;font-weight:400;margin-left:4px">保護者専用</span></div>
+    <button class="drawer-close" onclick="closeDrawer()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="adm-block">
+    <div class="adm-title"><i class="ti ti-repeat" style="font-size:15px"></i>毎日のルーティン編集</div>
+    <div id="adm-list"></div>
+    <div class="adm-add">
+      <input id="new-name" type="text" placeholder="タスク名...">
+      <input id="new-pts" type="number" placeholder="pt" min="1" max="99">
+      <button onclick="addAdmTask()"><i class="ti ti-plus"></i></button>
+    </div>
+  </div>
+  <div class="adm-block">
+    <div class="adm-title"><i class="ti ti-coin" style="font-size:15px"></i>おこづかい換算レート</div>
+    <div class="rate-row"><span>1 pt =</span><input type="number" id="rate-inp" value="5" min="1"><span>円</span></div>
+    <div style="font-size:12px;color:#378ADD;margin-top:6px" id="rate-prev"></div>
+  </div>
+  <button class="save-adm" onclick="saveAdm()"><i class="ti ti-device-floppy"></i> 変更を保存</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DAYS=['日','月','火','水','木','金','土'];
+const QUOTES=[
+  {t:'勝利とは、準備ができている人たちのためにある。',a:'ロナウジーニョ'},
+  {t:'失敗を恐れるな。失敗しないことを恐れろ。',a:'メッシ'},
+  {t:'限界を作るのは自分自身だ。',a:'ネイマール'},
+  {t:'毎日少しずつ上手くなることが、大きな差を生む。',a:'イニエスタ'},
+  {t:'今日の練習が、明日の試合を作る。',a:'ジダン'},
+  {t:'自分を信じることから、すべてが始まる。',a:'ティエリ・アンリ'},
+  {t:'夢を見ることをやめた瞬間に、成長も止まる。',a:'カカ'},
+  {t:'諦めなければ、負けはない。',a:'ルーニー'},
+  {t:'ボールは丸い。試合が終わるまで何が起こるかわからない。',a:'クライフ'},
+  {t:'プレッシャーは特権だ。自分が大切なことをやっている証拠だ。',a:'モドリッチ'},
+];
+
+// デフォルトデータ
+const DEF_TASKS=[
+  {id:'d1',name:'早起き・早寝',pts:10,note:'22時就寝・6時起床を目標に！',url:''},
+  {id:'d2',name:'ボールタッチ',pts:15,note:'両足100回ずつ。リズムよく。',url:''},
+  {id:'d3',name:'ストレッチ',pts:10,note:'練習前後に10分。しっかり伸ばそう。',url:''},
+  {id:'d4',name:'筋トレ・体幹',pts:15,note:'プランク30秒×3、腹筋20回×3',url:''},
+  {id:'d5',name:'学校の宿題',pts:20,note:'夕食前に終わらせよう',url:''},
+  {id:'d6',name:'サッカーノート',pts:15,note:'今日の気づきを3つ書こう',url:''},
+];
+const DEF_GOALS=[
+  {id:'g0',lbl:'最終ゴール',txt:'世界のトップで戦えるサッカー選手',top:true},
+  {id:'g1',lbl:'高校卒業時',txt:'ラ・リーガ、プレミアのクラブへ'},
+  {id:'g2',lbl:'中学卒業時',txt:'都選抜に選ばれる'},
+  {id:'g3',lbl:'中学3年',txt:'チームのエースに'},
+  {id:'g4',lbl:'中学2年',txt:'飛び級でレギュラーに'},
+  {id:'g5',lbl:'中学1年',txt:'1年のレギュラーに'},
+  {id:'g6',lbl:'今年中に',txt:'選抜メンバー入り'},
+  {id:'g7',lbl:'夏休み明けまでに',txt:'（目標を入力してください）'},
+];
+
+// localStorage 保存/読込
+function save(){try{localStorage.setItem('aoi_app_v1',JSON.stringify({tasks:S.tasks,goals:S.goals,diary:S.diary,trk:S.trk,bon:S.bon,cust:S.cust,rate:S.rate}));}catch(e){}}
+function load(){try{const d=localStorage.getItem('aoi_app_v1');if(d){const p=JSON.parse(d);S.tasks=p.tasks||DEF_TASKS;S.goals=p.goals||DEF_GOALS;S.diary=p.diary||[];S.trk=p.trk||{};S.bon=p.bon||{};S.cust=p.cust||{};S.rate=p.rate||5;}}catch(e){}}
+
+// State
+const S={tasks:[...DEF_TASKS],goals:[...DEF_GOALS],diary:[],trk:{},bon:{},cust:{},rate:5};
+load();
+
+let dateOff=0,weekOff=0,curMood='😊',admDraft=[],cid=100;
+const TODAY=new Date();TODAY.setHours(0,0,0,0);
+
+function toStr(off){const d=new Date(TODAY);d.setDate(d.getDate()+off);return d.toISOString().split('T')[0];}
+function todayStr(){return toStr(0);}
+function fmt(ds){const d=new Date(ds+'T00:00:00');return(d.getMonth()+1)+'/'+d.getDate()+'('+DAYS[d.getDay()]+')';}
+function fmtFull(ds){const d=new Date(ds+'T00:00:00');return(d.getMonth()+1)+'月'+d.getDate()+'日('+DAYS[d.getDay()]+')';}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function cell(date,id){if(!S.trk[date])S.trk[date]={};if(!S.trk[date][id])S.trk[date][id]={s:false,p:false};return S.trk[date][id];}
+function getCust(date){if(!S.cust[date])S.cust[date]=[];return S.cust[date];}
+function allTasks(date){return[...S.tasks,...getCust(date)];}
+
+// Tabs
+function sw(name,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('s-'+name).classList.add('active');
+  if(name==='tasks')renderTasks();
+  if(name==='points')renderPoints();
+  if(name==='home')renderHome();
+}
+
+// ---- HOME ----
+function renderHome(){
+  const road=document.getElementById('road');road.innerHTML='';
+  S.goals.forEach((g,i)=>{
+    if(i>0){const c=document.createElement('div');c.className='goal-arrow';c.innerHTML='<span>そのために</span><i class="ti ti-arrow-up" style="font-size:16px"></i>';road.appendChild(c);}
+    const card=document.createElement('div');card.className='goal-card'+(g.top?' top':'');
+    card.innerHTML=`<div class="goal-label"><i class="ti ti-${g.top?'trophy':'flag'}" style="font-size:13px"></i>${g.lbl}</div><div class="goal-text" id="gt-${g.id}">${g.txt}</div><button class="goal-edit" onclick="editGoal('${g.id}')"><i class="ti ti-pencil"></i></button><div class="goal-edit-panel" id="gep-${g.id}" style="display:none;margin-top:8px"><textarea id="gta-${g.id}" style="width:100%;border:1px solid #B5D4F4;border-radius:8px;padding:8px;font-size:14px;resize:none;font-family:inherit;color:#111;background:#fff" rows="2">${g.txt}</textarea><div style="display:flex;gap:8px;margin-top:6px;justify-content:flex-end"><button onclick="cancelGoalEdit('${g.id}')" style="padding:8px 14px;border-radius:8px;border:1px solid #B5D4F4;background:#fff;font-size:13px;cursor:pointer;color:#185FA5">キャンセル</button><button onclick="saveGoalEdit('${g.id}')" style="padding:8px 16px;border-radius:8px;border:none;background:#185FA5;font-size:13px;cursor:pointer;color:#fff;font-weight:500">保存</button></div></div>`;
+    road.appendChild(card);
+  });
+}
+function editGoal(id){
+  // iOSのSafariではpromptが使えないのでインライン編集
+  const panel=document.getElementById('gep-'+id);
+  const ta=document.getElementById('gta-'+id);
+  if(!panel)return;
+  const isOpen=panel.style.display!=='none';
+  // 全パネルを閉じる
+  S.goals.forEach(g=>{const p=document.getElementById('gep-'+g.id);if(p)p.style.display='none';});
+  if(!isOpen){panel.style.display='block';if(ta){ta.value=S.goals.find(x=>x.id===id).txt;ta.focus();}}
+}
+function cancelGoalEdit(id){const p=document.getElementById('gep-'+id);if(p)p.style.display='none';}
+function saveGoalEdit(id){
+  const ta=document.getElementById('gta-'+id);
+  const v=ta?ta.value.trim():'';
+  if(!v)return;
+  S.goals.find(x=>x.id===id).txt=v;
+  document.getElementById('gt-'+id).textContent=v;
+  cancelGoalEdit(id);
+  save();
+  toast('目標を更新しました');
+}
+
+// ---- TASKS ----
+function buildTaskRow(t,date,isCustom){
+  const c=cell(date,t.id);
+  const key=date+'-'+t.id;
+  const hasInfo=t.note||t.url;
+  const badge=c.p?'<span class="sbadge verif"><i class="ti ti-eye-check" style="font-size:11px"></i> 親確認済</span>':c.s?'<span class="sbadge done"><i class="ti ti-check" style="font-size:11px"></i> チェック済</span>':'<span class="sbadge pend">未完了</span>';
+  const rowCls='task-row'+(c.s?' sdone':'')+(c.p?' pverif':'')+(hasInfo?' has-info':'');
+  const chkCls='chk'+(c.p?' par':c.s?' son':'');
+  const chkIco=c.p?'<i class="ti ti-checks" style="font-size:12px"></i>':c.s?'<i class="ti ti-check" style="font-size:12px"></i>':'';
+  const del=isCustom?`<button class="del-btn" onclick="delCust('${date}','${t.id}')"><i class="ti ti-trash"></i></button>`:'';
+  const infobtn=hasInfo?`<button class="info-btn" id="ib-${key}" onclick="event.stopPropagation();toggleInfo('${key}')"><i class="ti ti-chevron-down"></i></button>`:'';
+  const infopanel=hasInfo?`<div class="info-panel" id="ip-${key}">${t.note?`<p class="info-note">${t.note}</p>`:''}${t.url?`<a class="info-link" href="${t.url}" target="_blank"><i class="ti ti-external-link"></i> 動画・リンクを見る</a>`:''}</div>`:'';
+  return`<div class="task-block"><div class="${rowCls}"><div class="${chkCls}" onclick="toggleSon('${date}','${t.id}')">${chkIco}</div><div class="tname">${t.name}</div>${badge}<div class="tpts">${t.pts} pt</div>${infobtn}${del}</div>${infopanel}</div>`;
+}
+function toggleInfo(key){
+  const p=document.getElementById('ip-'+key),b=document.getElementById('ib-'+key);
+  if(!p)return;const o=p.classList.contains('open');p.classList.toggle('open',!o);if(b)b.classList.toggle('open',!o);
+}
+function renderTasks(){
+  const date=toStr(dateOff);
+  const d=new Date(date+'T00:00:00');
+  const q=QUOTES[d.getDate()%QUOTES.length];
+  const custs=getCust(date);
+  const all=allTasks(date);
+  const done=all.filter(t=>cell(date,t.id).s).length;
+  const pct=all.length?Math.round(done/all.length*100):0;
+  document.getElementById('dnav-main').textContent=(d.getMonth()+1)+'月'+d.getDate()+'日('+DAYS[d.getDay()]+')';
+  document.getElementById('dnav-sub').textContent=dateOff===0?'今日':dateOff===-1?'昨日':dateOff===1?'明日':'';
+  document.getElementById('today-btn').classList.toggle('vis',dateOff!==0);
+  document.getElementById('tasks-content').innerHTML=`
+    <div class="quote-card"><div class="quote-text">${q.t}</div><div class="quote-author">— ${q.a}</div></div>
+    <div class="prog-strip"><div style="font-size:12px;color:#0C447C;white-space:nowrap;font-weight:500">今日の進捗</div><div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div><div style="font-size:12px;color:#0C447C;white-space:nowrap;font-weight:500">${done}/${all.length} 完了</div></div>
+    <div class="task-legend"><span><span style="display:inline-flex;width:16px;height:16px;border-radius:50%;background:#185FA5;align-items:center;justify-content:center;color:#fff;font-size:10px"><i class="ti ti-check"></i></span>葵チェック済み</span><span><span style="display:inline-flex;width:16px;height:16px;border-radius:50%;background:#0C447C;align-items:center;justify-content:center;color:#fff;font-size:10px"><i class="ti ti-check"></i></span>親確認済み</span><span><span style="display:inline-flex;width:20px;height:20px;border-radius:50%;background:#fff;border:1px solid #B5D4F4;align-items:center;justify-content:center;color:#185FA5;font-size:10px"><i class="ti ti-chevron-down"></i></span>タップでメモ</span></div>
+    <div class="sec-label"><i class="ti ti-repeat" style="color:#378ADD"></i>毎日のルーティン</div>
+    <div>${S.tasks.map(t=>buildTaskRow(t,date,false)).join('')}</div>
+    <div class="divider"><hr><span>個別タスク (${(d.getMonth()+1)}/${d.getDate()})</span><hr></div>
+    ${dateOff>0?'<div class="future-note"><i class="ti ti-clock" style="font-size:15px;vertical-align:-2px;margin-right:4px"></i>未来の日付です。事前に追加できます。</div>':''}
+    <div>${custs.length?custs.map(t=>buildTaskRow(t,date,true)).join(''):'<div style="font-size:13px;color:#378ADD;padding:4px 0">個別タスクなし</div>'}</div>
+    <div class="add-row"><input id="nc-${date}" type="text" placeholder="この日の個別タスクを追加..."><button onclick="addCust('${date}')"><i class="ti ti-plus"></i> 追加</button></div>`;
+}
+function toggleSon(date,id){const c=cell(date,id);if(c.p){toast('親確認済みは変更できません');return;}c.s=!c.s;save();if(c.s)toast('チェックしました！親の確認でポイントが確定します ✅');renderTasks();if(document.getElementById('s-points').classList.contains('active'))renderPoints();}
+function addCust(date){const inp=document.getElementById('nc-'+date);if(!inp)return;const name=inp.value.trim();if(!name)return;if(!S.cust[date])S.cust[date]=[];S.cust[date].push({id:'c'+(cid++),name,pts:10,note:'',url:''});inp.value='';save();renderTasks();toast('個別タスクを追加しました');}
+function delCust(date,id){if(!S.cust[date])return;S.cust[date]=S.cust[date].filter(x=>x.id!==id);save();renderTasks();}
+function moveDay(dir){dateOff+=dir;renderTasks();}
+function goToday(){dateOff=0;renderTasks();}
+
+// ---- POINTS ----
+function calcPts(){
+  const ts=todayStr(),wd=weekDates(0),mo=ts.slice(0,7);
+  let t=0,w=0,m=0,total=0;
+  Object.keys(S.trk).forEach(date=>{allTasks(date).forEach(task=>{const c=S.trk[date]&&S.trk[date][task.id];if(c&&c.p){total+=task.pts;if(date===ts)t+=task.pts;if(wd.includes(date))w+=task.pts;if(date.startsWith(mo))m+=task.pts;}});});
+  Object.keys(S.bon).forEach(date=>{(S.bon[date]||[]).forEach(e=>{total+=e.v;if(date===ts)t+=e.v;if(weekDates(0).includes(date))w+=e.v;if(date.startsWith(todayStr().slice(0,7)))m+=e.v;});});
+  return{t:Math.max(0,t),w:Math.max(0,w),m:Math.max(0,m),total:Math.max(0,total)};
+}
+function weekDates(off){const d=new Date(TODAY),dow=d.getDay(),mon=new Date(d);mon.setDate(d.getDate()-((dow+6)%7)+off*7);return Array.from({length:7},(_,i)=>{const dd=new Date(mon);dd.setDate(mon.getDate()+i);return dd.toISOString().split('T')[0];});}
+function updPts(){const p=calcPts();document.getElementById('hpts').textContent=p.total;['pts-today','pts-week','pts-month','pts-total'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[p.t,p.w,p.m,p.total][i];});}
+function chgWeek(dir){weekOff+=dir;renderPoints();}
+function renderPoints(){
+  updPts();
+  const dates=weekDates(weekOff);
+  const mon=new Date(dates[0]+'T00:00:00'),sun=new Date(dates[6]+'T00:00:00');
+  document.getElementById('week-lbl').textContent=(mon.getMonth()+1)+'/'+mon.getDate()+' 〜 '+(sun.getMonth()+1)+'/'+sun.getDate();
+  const ts=todayStr();
+  let tblHtml='<thead><tr><th class="tcol">タスク</th>';
+  dates.forEach(d=>{tblHtml+=`<th class="${d===ts?'today-col':''}">${fmt(d)}</th>`;});
+  tblHtml+='</tr></thead><tbody>';
+  S.tasks.forEach(task=>{
+    tblHtml+=`<tr><td class="tcol">${task.name}<br><span style="font-size:11px;color:#BC002D">${task.pts}pt</span></td>`;
+    dates.forEach(d=>{const c=cell(d,task.id);tblHtml+=`<td class="${d===ts?'today-col':''}"><div class="day-cell"><div class="sdot${c.s?' on':''}">${c.s?'✓':''}</div><div class="pdot${c.p?' on':''}" onclick="togglePar('${d}','${task.id}')">${c.p?'✓':''}</div></div></td>`;});
+    tblHtml+='</tr>';
+  });
+  tblHtml+='</tbody>';
+  document.getElementById('tracker-tbl').innerHTML=tblHtml;
+  document.getElementById('bonus-sec').innerHTML=dates.map(d=>{
+    if(!S.bon[d])S.bon[d]=[];
+    const tot=(S.bon[d]||[]).reduce((s,e)=>s+e.v,0);
+    const eh=(S.bon[d]||[]).length?(S.bon[d]||[]).map((e,ei)=>`<div class="bonus-entry"><span style="flex:1">${e.lbl}</span><span class="${e.v>=0?'bval-plus':'bval-minus'}">${e.v>=0?'+':''}${e.v}pt</span><button class="del-btn" onclick="delBon('${d}',${ei})"><i class="ti ti-x" style="font-size:12px"></i></button></div>`).join(''):'<div style="font-size:12px;color:#378ADD;padding:2px 0">なし</div>';
+    return`<div class="bonus-block"><div class="bonus-title"><span>${fmt(d)}</span><span style="color:${tot>=0?'#185FA5':'#BC002D'};font-weight:500">${tot>=0?'+':''}${tot}pt</span></div><div>${eh}</div><div class="bonus-add"><input type="text" id="bl-${d}" placeholder="例：お手伝いした"><input type="number" id="bv-${d}" placeholder="±pt"><button class="btn-plus" onclick="addBon('${d}',1)">＋</button><button class="btn-minus" onclick="addBon('${d}',-1)">－</button></div></div>`;
+  }).join('');
+  let tp=0;dates.forEach(d=>{S.tasks.forEach(t=>{const c=S.trk[d]&&S.trk[d][t.id];if(c&&c.p)tp+=t.pts;});});
+  const bp=dates.reduce((s,d)=>(S.bon[d]||[]).reduce((ss,e)=>ss+e.v,s),0);
+  const fin=tp+bp,yen=Math.max(0,fin)*S.rate;
+  document.getElementById('sum-card').innerHTML=`<div class="sum-row"><span>タスク達成（親確認済）</span><span>${tp} pt</span></div><div class="sum-row"><span>ボーナス/ペナルティ</span><span style="color:${bp>=0?'#B5D4F4':'#F4849E'}">${bp>=0?'+':''}${bp} pt</span></div><div class="sum-row"><span>今週の合計</span><span style="font-size:16px">${fin} pt</span></div>`;
+  document.getElementById('oko-card').innerHTML=`<div class="pts-unit" style="color:#BC002D;margin-bottom:4px">今週のおこづかい（1pt = ${S.rate}円）</div><div class="oko-yen">¥${yen.toLocaleString()}</div><div class="oko-sub">${fin} pt × ${S.rate}円</div>`;
+}
+function togglePar(date,id){const c=cell(date,id);if(!c.s&&!c.p){toast('葵がまだチェックしていません');return;}c.p=!c.p;save();toast(c.p?'親確認しました。ポイント確定 ✅':'親確認を取り消しました');renderPoints();if(document.getElementById('s-tasks').classList.contains('active'))renderTasks();}
+function addBon(date,sign){const l=document.getElementById('bl-'+date),v=document.getElementById('bv-'+date);const lbl=l.value.trim(),val=parseInt(v.value)||0;if(!lbl||val===0)return;if(!S.bon[date])S.bon[date]=[];S.bon[date].push({lbl,v:sign*Math.abs(val)});l.value='';v.value='';save();renderPoints();toast((sign>0?'ボーナス':'ペナルティ')+'を追加しました');}
+function delBon(date,i){S.bon[date].splice(i,1);save();renderPoints();}
+
+// ---- DIARY ----
+function selMood(el){document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');curMood=el.dataset.mood;}
+function clrDiary(){['f1','f2','f3','f4','f5'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));curMood='😊';}
+function saveDiary(){
+  const fields=['f1','f2','f3','f4','f5'].map(id=>document.getElementById(id).value.trim());
+  if(fields.every(f=>!f)){toast('何か書いてから保存してね！');return;}
+  S.diary.unshift({date:todayStr(),mood:curMood,f1:fields[0],f2:fields[1],f3:fields[2],f4:fields[3],f5:fields[4],replies:[]});
+  clrDiary();save();renderDiaries();toast('日記を保存しました 📝');
+}
+const SLBLS=[{i:'ti-sun',l:'今日あったこと'},{i:'ti-heart',l:'感じたこと'},{i:'ti-zoom-question',l:'なぜそう感じたか'},{i:'ti-arrow-right',l:'次にどうしたいか'},{i:'ti-book',l:'今日の言葉'}];
+function renderDiaries(){
+  const c=document.getElementById('d-entries');
+  if(!S.diary.length){c.innerHTML='<div style="text-align:center;padding:2rem;color:#378ADD;font-size:13px">まだ日記がありません</div>';return;}
+  c.innerHTML=S.diary.map((d,idx)=>{
+    const dt=new Date(d.date+'T00:00:00');
+    const fields=[d.f1,d.f2,d.f3,d.f4,d.f5];
+    const body=SLBLS.map((s,i)=>{
+      if(!fields[i])return'';
+      if(i===4)return`<div class="d-sec"><div class="d-sec-lbl"><div class="d-sec-num">${i+1}</div><i class="ti ${s.i}" style="font-size:13px"></i>${s.l}</div><div class="word-chip"><i class="ti ti-bookmark" style="font-size:13px"></i>${fields[i]}</div></div>`;
+      return`<div class="d-sec"><div class="d-sec-lbl"><div class="d-sec-num">${i+1}</div><i class="ti ${s.i}" style="font-size:13px"></i>${s.l}</div><div class="d-sec-text">${fields[i]}</div></div>`;
+    }).join('');
+    const reps=(d.replies||[]).map(r=>`<div class="reply-bubble"><span style="font-size:11px;font-weight:500;color:#185FA5">保護者より</span><br>${r.t}<div class="reply-meta">${r.time}</div></div>`).join('');
+    return`<div class="d-card"><div class="d-card-hdr" onclick="togCard(${idx})"><div class="d-card-left"><span class="d-card-mood">${d.mood||'📓'}</span><span class="d-card-date">${(dt.getMonth()+1)+'月'+dt.getDate()+'日('+DAYS[dt.getDay()]+')'}</span></div><span class="d-card-prev">${d.f1||d.f2||''}</span><i class="ti ti-chevron-down d-card-chev" id="dc-${idx}"></i></div><div class="d-card-body" id="db-${idx}">${body}<div class="reply-sec"><div class="reply-lbl"><i class="ti ti-message-circle" style="font-size:14px;color:#378ADD"></i>保護者からの返信</div><div id="dr-${idx}">${reps}</div><div class="reply-row"><input type="text" id="ri-${idx}" placeholder="返信を入力（保護者）..."><button onclick="addReply(${idx})"><i class="ti ti-send" style="font-size:13px"></i>送信</button></div></div></div></div>`;
+  }).join('');
+}
+function togCard(idx){const b=document.getElementById('db-'+idx),c=document.getElementById('dc-'+idx);const o=b.classList.contains('open');b.classList.toggle('open',!o);c.classList.toggle('open',!o);}
+function addReply(idx){const inp=document.getElementById('ri-'+idx);const txt=inp.value.trim();if(!txt)return;const now=new Date();const time=(now.getMonth()+1)+'月'+now.getDate()+'日 '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');if(!S.diary[idx].replies)S.diary[idx].replies=[];S.diary[idx].replies.push({t:txt,time});inp.value='';save();document.getElementById('dr-'+idx).innerHTML=S.diary[idx].replies.map(r=>`<div class="reply-bubble"><span style="font-size:11px;font-weight:500;color:#185FA5">保護者より</span><br>${r.t}<div class="reply-meta">${r.time}</div></div>`).join('');toast('返信を送りました');}
+
+// ---- ADMIN ----
+function openDrawer(){admDraft=S.tasks.map(t=>({...t}));document.getElementById('rate-inp').value=S.rate;updRatePrev();renderAdm();document.getElementById('overlay').classList.add('open');document.getElementById('drawer').classList.add('open');}
+function closeDrawer(){document.getElementById('overlay').classList.remove('open');document.getElementById('drawer').classList.remove('open');}
+function updRatePrev(){const r=parseInt(document.getElementById('rate-inp').value)||1;document.getElementById('rate-prev').textContent='例: 100pt → ¥'+(100*r).toLocaleString();}
+document.getElementById('rate-inp').addEventListener('input',updRatePrev);
+function renderAdm(){
+  document.getElementById('adm-list').innerHTML=admDraft.map((t,i)=>`
+    <div class="adm-task">
+      <div class="adm-row1"><input type="text" value="${t.name}" id="an-${i}" placeholder="タスク名"><div class="adm-pts"><input type="number" value="${t.pts}" id="ap-${i}" min="1" max="99"><span>pt</span></div><button class="adm-del" onclick="rmAdmTask(${i})"><i class="ti ti-trash"></i></button></div>
+      <div class="adm-extra"><label><i class="ti ti-note" style="font-size:11px"></i> メモ</label><input type="text" value="${t.note||''}" id="an-note-${i}" placeholder="メモ（任意）"><label style="margin-top:4px"><i class="ti ti-link" style="font-size:11px"></i> リンク</label><input type="url" value="${t.url||''}" id="an-url-${i}" placeholder="https://...（任意）"></div>
+    </div>`).join('');
+}
+function rmAdmTask(i){admDraft.splice(i,1);renderAdm();}
+function addAdmTask(){const name=document.getElementById('new-name').value.trim(),pts=parseInt(document.getElementById('new-pts').value)||10;if(!name)return;admDraft.push({id:'d'+Date.now(),name,pts,note:'',url:''});document.getElementById('new-name').value='';document.getElementById('new-pts').value='';renderAdm();}
+function saveAdm(){
+  admDraft.forEach((t,i)=>{const n=document.getElementById('an-'+i),p=document.getElementById('ap-'+i),no=document.getElementById('an-note-'+i),ur=document.getElementById('an-url-'+i);if(n)t.name=n.value.trim()||t.name;if(p)t.pts=parseInt(p.value)||t.pts;if(no)t.note=no.value.trim();if(ur)t.url=ur.value.trim();});
+  S.tasks=admDraft.map(t=>({...t}));S.rate=parseInt(document.getElementById('rate-inp').value)||1;save();closeDrawer();renderTasks();if(document.getElementById('s-points').classList.contains('active'))renderPoints();toast('設定を保存しました');
+}
+
+// ---- INIT ----
+const now=new Date();
+document.getElementById('diary-date-badge').textContent=(now.getMonth()+1)+'月'+now.getDate()+'日('+DAYS[now.getDay()]+')';
+try{renderHome();}catch(e){console.error('renderHome error:',e);}
+try{renderTasks();}catch(e){console.error('renderTasks error:',e);}
+try{updPts();}catch(e){console.error('updPts error:',e);}
+try{renderDiaries();}catch(e){console.error('renderDiaries error:',e);}
+</script>
+</body>
+</html>
