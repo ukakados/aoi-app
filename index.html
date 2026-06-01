@@ -8,6 +8,8 @@
 <meta http-equiv="Expires" content="0">
 <title>葵 世界への道</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <style>
 :root{--b:#185FA5;--bd:#0C447C;--bl:#E6F1FB;--bm:#B5D4F4;--bb:#378ADD;--r:#BC002D;--rl:#FCEEF1;--rm:#F4849E;--g:#B8962A}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -524,9 +526,89 @@ const DEF_GOALS=[
   {id:'g7',lbl:'夏休み明けまでに',txt:'（目標を入力してください）'},
 ];
 
-// localStorage 保存/読込
-function save(){try{localStorage.setItem('aoi_app_v1',JSON.stringify({tasks:S.tasks,goals:S.goals,diary:S.diary,trk:S.trk,bon:S.bon,cust:S.cust,rate:S.rate}));}catch(e){}}
-function load(){try{const d=localStorage.getItem('aoi_app_v1');if(d){const p=JSON.parse(d);S.tasks=p.tasks||DEF_TASKS;S.goals=p.goals||DEF_GOALS;S.diary=p.diary||[];S.trk=p.trk||{};S.bon=p.bon||{};S.cust=p.cust||{};S.rate=p.rate||5;}}catch(e){}}
+// Firebase 設定
+const firebaseConfig = {
+  apiKey: "AIzaSyClB12yNbZDdXa6tsjUzYtAfhqI-6LfdTo",
+  authDomain: "aoi-app-e1819.firebaseapp.com",
+  projectId: "aoi-app-e1819",
+  storageBucket: "aoi-app-e1819.firebasestorage.app",
+  messagingSenderId: "755353410045",
+  appId: "1:755353410045:web:ccec8b8db0b5164332e194",
+  measurementId: "G-9K3R170SPV"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const DOC_ID = 'shared'; // 全端末で共通のデータ
+
+// 保存中フラグ
+let isSaving = false;
+let saveTimer = null;
+
+// Firebaseに保存（少し待ってからまとめて保存）
+function save(){
+  if(saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    // localStorageにも保存（オフライン対策）
+    try{localStorage.setItem('aoi_app_v1',JSON.stringify({tasks:S.tasks,goals:S.goals,diary:S.diary,trk:S.trk,bon:S.bon,cust:S.cust,rate:S.rate}));}catch(e){}
+    // Firebaseに保存
+    const data = {tasks:S.tasks,goals:S.goals,diary:S.diary,trk:S.trk,bon:S.bon,cust:S.cust,rate:S.rate,updatedAt:new Date().getTime()};
+    db.collection('aoi').doc(DOC_ID).set(data).catch(e=>console.error('Firebase save error:',e));
+  }, 800);
+}
+
+// Firebaseから読込
+function load(){
+  // まずlocalStorageから読んで即表示
+  try{
+    const d=localStorage.getItem('aoi_app_v1');
+    if(d){const p=JSON.parse(d);S.tasks=p.tasks||DEF_TASKS;S.goals=p.goals||DEF_GOALS;S.diary=p.diary||[];S.trk=p.trk||{};S.bon=p.bon||{};S.cust=p.cust||{};S.rate=p.rate||5;}
+  }catch(e){}
+  // Firebaseからも取得して上書き
+  db.collection('aoi').doc(DOC_ID).get().then(doc=>{
+    if(doc.exists){
+      const p=doc.data();
+      S.tasks=p.tasks||DEF_TASKS;
+      S.goals=p.goals||DEF_GOALS;
+      S.diary=p.diary||[];
+      S.trk=p.trk||{};
+      S.bon=p.bon||{};
+      S.cust=p.cust||{};
+      S.rate=p.rate||5;
+      // localStorageも更新
+      try{localStorage.setItem('aoi_app_v1',JSON.stringify(p));}catch(e){}
+      // 画面を更新
+      try{renderHome();}catch(e){}
+      try{renderTasks();}catch(e){}
+      try{updPts();}catch(e){}
+      try{renderDiaries();}catch(e){}
+      toast('データを同期しました ✅');
+    }
+  }).catch(e=>{
+    console.error('Firebase load error:',e);
+    toast('オフラインモードで動作中');
+  });
+}
+
+// リアルタイム同期（他の端末の変更を即反映）
+function startRealtimeSync(){
+  db.collection('aoi').doc(DOC_ID).onSnapshot(doc=>{
+    if(doc.exists && !isSaving){
+      const p=doc.data();
+      S.tasks=p.tasks||DEF_TASKS;
+      S.goals=p.goals||DEF_GOALS;
+      S.diary=p.diary||[];
+      S.trk=p.trk||{};
+      S.bon=p.bon||{};
+      S.cust=p.cust||{};
+      S.rate=p.rate||5;
+      try{localStorage.setItem('aoi_app_v1',JSON.stringify(p));}catch(e){}
+      try{renderHome();}catch(e){}
+      try{renderTasks();}catch(e){}
+      try{updPts();}catch(e){}
+      try{renderDiaries();}catch(e){}
+    }
+  }, e=>console.error('Realtime sync error:',e));
+}
 
 // State
 const S={tasks:[...DEF_TASKS],goals:[...DEF_GOALS],diary:[],trk:{},bon:{},cust:{},rate:5};
@@ -732,6 +814,9 @@ try{renderHome();}catch(e){console.error('renderHome error:',e);}
 try{renderTasks();}catch(e){console.error('renderTasks error:',e);}
 try{updPts();}catch(e){console.error('updPts error:',e);}
 try{renderDiaries();}catch(e){console.error('renderDiaries error:',e);}
+
+// リアルタイム同期開始
+startRealtimeSync();
 
 // 日付変わり検知：1分ごとに今日の日付をチェックし、変わったらUIを更新
 let _lastDate=todayStr();
