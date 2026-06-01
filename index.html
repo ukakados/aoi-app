@@ -203,8 +203,9 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 .adm-del{background:none;border:none;cursor:pointer;color:var(--bm);font-size:14px;padding:2px 4px}
 .adm-del:hover{color:var(--r)}
 .adm-extra{display:flex;flex-direction:column;gap:4px}
-.adm-extra label{font-size:11px;color:var(--b);font-weight:500}
-.adm-extra input{border:.5px solid var(--bm);border-radius:8px;padding:5px 10px;font-size:12px;width:100%}
+.adm-extra label{font-size:11px;color:var(--b);font-weight:500;display:flex;align-items:center;gap:4px}
+.adm-extra input,.adm-extra textarea{border:.5px solid var(--bm);border-radius:8px;padding:8px 10px;font-size:13px;width:100%;font-family:inherit}
+.adm-extra textarea{resize:vertical;min-height:60px;line-height:1.5}
 .adm-add{display:flex;gap:6px;margin-top:10px}
 .adm-add input[type=text]{flex:1;border:.5px solid var(--bm);border-radius:8px;padding:7px 10px;font-size:13px}
 .adm-add input[type=number]{width:54px;border:.5px solid var(--bm);border-radius:8px;padding:7px 6px;font-size:13px;text-align:right}
@@ -401,16 +402,103 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 <script>
 const DAYS=['日','月','火','水','木','金','土'];
 const QUOTES=[
-  {t:'勝利とは、準備ができている人たちのためにある。',a:'ロナウジーニョ'},
-  {t:'失敗を恐れるな。失敗しないことを恐れろ。',a:'メッシ'},
-  {t:'限界を作るのは自分自身だ。',a:'ネイマール'},
-  {t:'毎日少しずつ上手くなることが、大きな差を生む。',a:'イニエスタ'},
-  {t:'今日の練習が、明日の試合を作る。',a:'ジダン'},
-  {t:'自分を信じることから、すべてが始まる。',a:'ティエリ・アンリ'},
-  {t:'夢を見ることをやめた瞬間に、成長も止まる。',a:'カカ'},
-  {t:'諦めなければ、負けはない。',a:'ルーニー'},
-  {t:'ボールは丸い。試合が終わるまで何が起こるかわからない。',a:'クライフ'},
-  {t:'プレッシャーは特権だ。自分が大切なことをやっている証拠だ。',a:'モドリッチ'},
+  {t:'勝利とは、準備ができている人たちのためにある。',a:'ロナウジーニョ（サッカー）'},
+  {t:'失敗を恐れるな。失敗しないことを恐れろ。',a:'リオネル・メッシ（サッカー）'},
+  {t:'限界を作るのは自分自身だ。',a:'ネイマール（サッカー）'},
+  {t:'毎日少しずつ上手くなることが、大きな差を生む。',a:'アンドレス・イニエスタ（サッカー）'},
+  {t:'今日の練習が、明日の試合を作る。',a:'ジネディーヌ・ジダン（サッカー）'},
+  {t:'自分を信じることから、すべてが始まる。',a:'ティエリ・アンリ（サッカー）'},
+  {t:'夢を見ることをやめた瞬間に、成長も止まる。',a:'カカ（サッカー）'},
+  {t:'諦めなければ、負けはない。',a:'ウェイン・ルーニー（サッカー）'},
+  {t:'ボールは丸い。試合が終わるまで何が起こるかわからない。',a:'ヨハン・クライフ（サッカー）'},
+  {t:'プレッシャーは特権だ。自分が大切なことをやっている証拠だ。',a:'ルカ・モドリッチ（サッカー）'},
+  {t:'努力した者が全て報われるとは限らない。しかし、成功した者は皆すべからく努力している。',a:'クリスティアーノ・ロナウド（サッカー）'},
+  {t:'才能は努力で磨かれる。努力は才能を超える。',a:'ペレ（サッカー）'},
+  {t:'チームのために犠牲になることを恐れるな。',a:'フランツ・ベッケンバウアー（サッカー）'},
+  {t:'逆境の中にこそ、本当の自分がいる。',a:'ロベルト・バッジョ（サッカー）'},
+  {t:'夢は逃げない。逃げるのはいつも自分だ。',a:'本田圭佑（サッカー）'},
+  {t:'できると思えばできる、できないと思えばできない。これは、ゆるぎない法則だ。',a:'パブロ・ピカソ / 長友佑都（サッカー）'},
+  {t:'自分の限界は自分で決めるな。',a:'中田英寿（サッカー）'},
+  {t:'ゴールを決めるのは足ではなく、頭の中にある強い意志だ。',a:'釜本邦茂（サッカー）'},
+  {t:'苦しいときこそ、前を向け。',a:'三浦知良（サッカー）'},
+  {t:'一生懸命やれば、必ず結果はついてくる。',a:'澤穂希（サッカー）'},
+  {t:'野球は個人競技ではない。チームで戦う。',a:'長嶋茂雄（野球）'},
+  {t:'努力は必ず報われる。もし報われない努力があるならば、それはまだ努力と呼べない。',a:'王貞治（野球）'},
+  {t:'どんな困難も、乗り越えられない壁はない。',a:'イチロー（野球）'},
+  {t:'小さなことを積み重ねることが、とんでもないところへ行く唯一の道だ。',a:'イチロー（野球）'},
+  {t:'夢を持つことが、人生のスタート地点だ。',a:'松井秀喜（野球）'},
+  {t:'失敗したっていい。また立ち上がればいい。',a:'大谷翔平（野球）'},
+  {t:'自分に打ち勝つことが最大の勝利だ。',a:'田中将大（野球）'},
+  {t:'諦めなければ、チャンスは必ずくる。',a:'山本由伸（野球）'},
+  {t:'一球一球に全力を込めろ。',a:'野茂英雄（野球）'},
+  {t:'準備こそが、自信を生む。',a:'古田敦也（野球）'},
+  {t:'プロとは言い訳をしない人間のことだ。',a:'落合博満（野球）'},
+  {t:'毎日コツコツと積み上げることが大事。',a:'鈴木誠也（野球）'},
+  {t:'勝ちたいなら、誰よりも練習しろ。',a:'清原和博（野球）'},
+  {t:'自分を信じ、チームを信じる。それが勝利への道だ。',a:'星野仙一（野球）'},
+  {t:'逃げたら一つ、進めば二つ。',a:'武者小路実篤 / 高校野球の教え'},
+  {t:'今できることに集中しろ。',a:'ダルビッシュ有（野球）'},
+  {t:'才能の差は小さい。しかし努力の差は大きい。',a:'バスケットボールの格言'},
+  {t:'ハードワークは才能を打ち負かす。',a:'マイケル・ジョーダン（バスケットボール）'},
+  {t:'限界と思ったときが、本当のスタートだ。',a:'コービー・ブライアント（バスケットボール）'},
+  {t:'成功は目的地ではなく、旅そのものだ。',a:'レブロン・ジェームズ（バスケットボール）'},
+  {t:'チームメイトを信じることが、最強の武器だ。',a:'マジック・ジョンソン（バスケットボール）'},
+  {t:'毎日成長することを選べ。',a:'ステフィン・カリー（バスケットボール）'},
+  {t:'プレーは準備から始まる。',a:'ティム・ダンカン（バスケットボール）'},
+  {t:'諦めた瞬間、試合は終わる。',a:'ケビン・デュラント（バスケットボール）'},
+  {t:'失敗は成功の母。何度でも立ち上がれ。',a:'ラリー・バード（バスケットボール）'},
+  {t:'自分のベストを毎日出し続けろ。',a:'八村塁（バスケットボール）'},
+  {t:'夢を信じ、諦めなければ必ず道は開ける。',a:'渡邊雄太（バスケットボール）'},
+  {t:'試合に勝つのは技術ではなく、意志の力だ。',a:'田臥勇太（バスケットボール）'},
+  {t:'一点を取るために、全力を尽くせ。',a:'バレーボールの格言'},
+  {t:'チームの力は、一人ひとりの力の合計以上だ。',a:'益子直美（バレーボール）'},
+  {t:'苦しい練習があるから、試合で輝ける。',a:'中田久美（バレーボール）'},
+  {t:'挫折を知らない人間に、真の強さはない。',a:'大林素子（バレーボール）'},
+  {t:'限界を超えた先に、新しい自分がいる。',a:'木村沙織（バレーボール）'},
+  {t:'全力でぶつかれ。後悔のないプレーを。',a:'石川祐希（バレーボール）'},
+  {t:'ネガティブな気持ちをポジティブに変える力が勝負を分ける。',a:'古賀紗理那（バレーボール）'},
+  {t:'サーブ一本で試合の流れは変わる。',a:'西田有志（バレーボール）'},
+  {t:'勝利の陰には、数えきれない失敗がある。',a:'眞鍋政義（バレーボール）'},
+  {t:'諦めない心が、奇跡を起こす。',a:'荒木絵里香（バレーボール）'},
+  {t:'速く走るのではなく、正しく走ることが大切だ。',a:'ウサイン・ボルト（陸上）'},
+  {t:'痛みは一時的だ。諦めは永遠に残る。',a:'ランス・アームストロング（自転車）'},
+  {t:'金メダルは、誰も見ていない場所での練習から生まれる。',a:'マイケル・フェルプス（水泳）'},
+  {t:'本番で力を出すために、練習がある。',a:'北島康介（水泳）'},
+  {t:'今日の自分を超えることが、最大の目標だ。',a:'羽生結弦（フィギュアスケート）'},
+  {t:'不可能を可能にするのが、アスリートの使命だ。',a:'高橋大輔（フィギュアスケート）'},
+  {t:'結果は変えられない。でも姿勢は変えられる。',a:'浅田真央（フィギュアスケート）'},
+  {t:'弱い自分に負けるな。',a:'野口みずき（マラソン）'},
+  {t:'タイムは結果。大切なのはそこに至るプロセスだ。',a:'有森裕子（マラソン）'},
+  {t:'自分との戦いに勝て。',a:'高橋尚子（マラソン）'},
+  {t:'一歩一歩の積み重ねが、ゴールへの道だ。',a:'川内優輝（マラソン）'},
+  {t:'逆境こそが人を強くする。',a:'錦織圭（テニス）'},
+  {t:'諦めずに打ち続けることが、チャンスを生む。',a:'大坂なおみ（テニス）'},
+  {t:'自分を信じることが、最初の一歩だ。',a:'ノバク・ジョコビッチ（テニス）'},
+  {t:'練習で限界を超えれば、試合では余裕が生まれる。',a:'ラファエル・ナダル（テニス）'},
+  {t:'集中力こそ、勝利の鍵だ。',a:'ロジャー・フェデラー（テニス）'},
+  {t:'失敗を恐れるより、挑戦しないことを恐れろ。',a:'大谷翔平（野球）'},
+  {t:'強くなりたければ、弱い自分を認めることから始めろ。',a:'柔道の格言'},
+  {t:'汗は嘘をつかない。',a:'スポーツの格言'},
+  {t:'昨日の自分より少しでも成長すること。それが目標だ。',a:'スポーツの格言'},
+  {t:'勝つことよりも、最後まで諦めないことが大事だ。',a:'スポーツの格言'},
+  {t:'努力に勝る天才なし。',a:'日本のスポーツの格言'},
+  {t:'心が変われば、行動が変わる。行動が変われば、結果が変わる。',a:'スポーツの格言'},
+  {t:'一日一日を大切に。毎日が本番だ。',a:'スポーツの格言'},
+  {t:'チームワークは夢を実現させる。',a:'スポーツの格言'},
+  {t:'どんな小さな勝利も、大きな自信につながる。',a:'スポーツの格言'},
+  {t:'本気になれば、必ず道は開ける。',a:'スポーツの格言'},
+  {t:'強い選手は、苦しいときほど輝く。',a:'スポーツの格言'},
+  {t:'失敗は成功のための材料だ。',a:'スポーツの格言'},
+  {t:'勝利は準備した者のもとに訪れる。',a:'スポーツの格言'},
+  {t:'信じる心が、奇跡を起こす。',a:'スポーツの格言'},
+  {t:'体は疲れても、心は折れるな。',a:'スポーツの格言'},
+  {t:'今日できることを、明日に先延ばしにするな。',a:'スポーツの格言'},
+  {t:'挑戦する勇気が、成長をもたらす。',a:'スポーツの格言'},
+  {t:'走り続ける者だけが、ゴールにたどり着く。',a:'スポーツの格言'},
+  {t:'ライバルは昨日の自分だ。',a:'スポーツの格言'},
+  {t:'諦めたとき、夢は終わる。',a:'スポーツの格言'},
+  {t:'最後まで戦い続けることが、真のアスリートだ。',a:'スポーツの格言'},
+  {t:'勝利よりも、全力を出し切ることに誇りを持て。',a:'スポーツの格言'},
 ];
 
 // デフォルトデータ
@@ -442,9 +530,9 @@ const S={tasks:[...DEF_TASKS],goals:[...DEF_GOALS],diary:[],trk:{},bon:{},cust:{
 load();
 
 let dateOff=0,weekOff=0,curMood='😊',admDraft=[],cid=100;
-const TODAY=new Date();TODAY.setHours(0,0,0,0);
 
-function toStr(off){const d=new Date(TODAY);d.setDate(d.getDate()+off);return d.toISOString().split('T')[0];}
+function getToday(){const d=new Date();d.setHours(0,0,0,0);return d;}
+function toStr(off){const d=getToday();d.setDate(d.getDate()+off);return d.toISOString().split('T')[0];}
 function todayStr(){return toStr(0);}
 function fmt(ds){const d=new Date(ds+'T00:00:00');return(d.getMonth()+1)+'/'+d.getDate()+'('+DAYS[d.getDay()]+')';}
 function fmtFull(ds){const d=new Date(ds+'T00:00:00');return(d.getMonth()+1)+'月'+d.getDate()+'日('+DAYS[d.getDay()]+')';}
@@ -507,7 +595,8 @@ function buildTaskRow(t,date,isCustom){
   const chkIco=c.p?'<i class="ti ti-checks" style="font-size:12px"></i>':c.s?'<i class="ti ti-check" style="font-size:12px"></i>':'';
   const del=isCustom?`<button class="del-btn" onclick="delCust('${date}','${t.id}')"><i class="ti ti-trash"></i></button>`:'';
   const infobtn=hasInfo?`<button class="info-btn" id="ib-${key}" onclick="event.stopPropagation();toggleInfo('${key}')"><i class="ti ti-chevron-down"></i></button>`:'';
-  const infopanel=hasInfo?`<div class="info-panel" id="ip-${key}">${t.note?`<p class="info-note">${t.note}</p>`:''}${t.url?`<a class="info-link" href="${t.url}" target="_blank"><i class="ti ti-external-link"></i> 動画・リンクを見る</a>`:''}</div>`:'';
+  const urlLinks=(t.url||'').split('\n').map(u=>u.trim()).filter(u=>u).map((u,i,arr)=>`<a class="info-link" href="${u}" target="_blank" style="margin-bottom:4px"><i class="ti ti-external-link"></i> リンク${arr.length>1?' '+(i+1):''}</a>`).join('');
+  const infopanel=hasInfo?`<div class="info-panel" id="ip-${key}">${t.note?`<p class="info-note">${t.note.replace(/\n/g,'<br>')}</p>`:''}${urlLinks?`<div style="display:flex;flex-direction:column;gap:6px">${urlLinks}</div>`:''}</div>`:'';
   return`<div class="task-block"><div class="${rowCls}"><div class="${chkCls}" onclick="toggleSon('${date}','${t.id}')">${chkIco}</div><div class="tname">${t.name}</div>${badge}<div class="tpts">${t.pts} pt</div>${infobtn}${del}</div>${infopanel}</div>`;
 }
 function toggleInfo(key){
@@ -622,7 +711,7 @@ function renderAdm(){
   document.getElementById('adm-list').innerHTML=admDraft.map((t,i)=>`
     <div class="adm-task">
       <div class="adm-row1"><input type="text" value="${t.name}" id="an-${i}" placeholder="タスク名"><div class="adm-pts"><input type="number" value="${t.pts}" id="ap-${i}" min="1" max="99"><span>pt</span></div><button class="adm-del" onclick="rmAdmTask(${i})"><i class="ti ti-trash"></i></button></div>
-      <div class="adm-extra"><label><i class="ti ti-note" style="font-size:11px"></i> メモ</label><input type="text" value="${t.note||''}" id="an-note-${i}" placeholder="メモ（任意）"><label style="margin-top:4px"><i class="ti ti-link" style="font-size:11px"></i> リンク</label><input type="url" value="${t.url||''}" id="an-url-${i}" placeholder="https://...（任意）"></div>
+      <div class="adm-extra"><label><i class="ti ti-note" style="font-size:11px"></i> メモ（複数行OK）</label><textarea id="an-note-${i}" placeholder="メモ（任意）">${t.note||''}</textarea><label style="margin-top:4px"><i class="ti ti-link" style="font-size:11px"></i> リンクURL（複数の場合は改行で区切る）</label><textarea id="an-url-${i}" placeholder="https://...&#10;https://...（複数可、改行で区切る）">${t.url||''}</textarea></div>
     </div>`).join('');
 }
 function rmAdmTask(i){admDraft.splice(i,1);renderAdm();}
