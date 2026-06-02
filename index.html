@@ -8,8 +8,6 @@
 <meta http-equiv="Expires" content="0">
 <title>葵 世界への道</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <style>
 :root{--b:#185FA5;--bd:#0C447C;--bl:#E6F1FB;--bm:#B5D4F4;--bb:#378ADD;--r:#BC002D;--rl:#FCEEF1;--rm:#F4849E;--g:#B8962A}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -182,10 +180,11 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 .reply-lbl{font-size:11px;font-weight:500;color:var(--bd);margin-bottom:8px;display:flex;align-items:center;gap:5px}
 .reply-bubble{background:var(--bl);border:.5px solid var(--bm);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--bd);line-height:1.6;margin-bottom:8px}
 .reply-meta{font-size:11px;color:var(--bb);margin-top:4px;text-align:right}
-.reply-row{display:flex;gap:6px}
-.reply-row input{flex:1;border:.5px solid var(--bm);border-radius:8px;padding:12px 10px;font-size:14px}
-.reply-row input:focus{outline:none;border-color:var(--b)}
-.reply-row button{padding:12px 16px;border-radius:8px;border:none;background:var(--b);font-size:14px;cursor:pointer;color:#fff;display:flex;align-items:center;gap:4px;min-height:48px}
+.reply-row{display:flex;flex-direction:column;gap:8px}
+.reply-row textarea{width:100%;border:.5px solid var(--bm);border-radius:8px;padding:12px 10px;font-size:14px;resize:vertical;min-height:80px;font-family:inherit;line-height:1.6}
+.reply-row textarea:focus{outline:none;border-color:var(--b)}
+.reply-row-btn{display:flex;justify-content:flex-end}
+.reply-row button{padding:12px 20px;border-radius:8px;border:none;background:var(--b);font-size:14px;cursor:pointer;color:#fff;display:flex;align-items:center;gap:4px;min-height:48px}
 .reply-row button:hover{background:var(--bd)}
 
 /* DRAWER */
@@ -404,6 +403,8 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#fff
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
 const DAYS=['日','月','火','水','木','金','土'];
 const QUOTES=[
@@ -782,7 +783,7 @@ function renderDiaries(){
       return`<div class="d-sec"><div class="d-sec-lbl"><div class="d-sec-num">${i+1}</div><i class="ti ${s.i}" style="font-size:13px"></i>${s.l}</div><div class="d-sec-text">${fields[i]}</div></div>`;
     }).join('');
     const reps=(d.replies||[]).map(r=>`<div class="reply-bubble"><span style="font-size:11px;font-weight:500;color:#185FA5">保護者より</span><br>${r.t}<div class="reply-meta">${r.time}</div></div>`).join('');
-    return`<div class="d-card"><div class="d-card-hdr" onclick="togCard(${idx})"><div class="d-card-left"><span class="d-card-mood">${d.mood||'📓'}</span><span class="d-card-date">${(dt.getMonth()+1)+'月'+dt.getDate()+'日('+DAYS[dt.getDay()]+')'}</span></div><span class="d-card-prev">${d.f1||d.f2||''}</span><i class="ti ti-chevron-down d-card-chev" id="dc-${idx}"></i></div><div class="d-card-body" id="db-${idx}">${body}<div class="reply-sec"><div class="reply-lbl"><i class="ti ti-message-circle" style="font-size:14px;color:#378ADD"></i>保護者からの返信</div><div id="dr-${idx}">${reps}</div><div class="reply-row"><input type="text" id="ri-${idx}" placeholder="返信を入力（保護者）..."><button onclick="addReply(${idx})"><i class="ti ti-send" style="font-size:13px"></i>送信</button></div></div></div></div>`;
+    return`<div class="d-card"><div class="d-card-hdr" onclick="togCard(${idx})"><div class="d-card-left"><span class="d-card-mood">${d.mood||'📓'}</span><span class="d-card-date">${(dt.getMonth()+1)+'月'+dt.getDate()+'日('+DAYS[dt.getDay()]+')'}</span></div><span class="d-card-prev">${d.f1||d.f2||''}</span><i class="ti ti-chevron-down d-card-chev" id="dc-${idx}"></i></div><div class="d-card-body" id="db-${idx}">${body}<div class="reply-sec"><div class="reply-lbl"><i class="ti ti-message-circle" style="font-size:14px;color:#378ADD"></i>保護者からの返信</div><div id="dr-${idx}">${reps}</div><div class="reply-row"><textarea id="ri-${idx}" placeholder="返信を入力（保護者）...長文もOKです"></textarea><div class="reply-row-btn"><button onclick="addReply(${idx})"><i class="ti ti-send" style="font-size:13px"></i>送信</button></div></div></div></div></div>`;
   }).join('');
 }
 function togCard(idx){const b=document.getElementById('db-'+idx),c=document.getElementById('dc-'+idx);const o=b.classList.contains('open');b.classList.toggle('open',!o);c.classList.toggle('open',!o);}
